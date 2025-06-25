@@ -11,6 +11,9 @@ import { AppProvider } from "@/contexts/AppContext";
 import Landing from "./pages/Landing";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
+import Affirmations from "./pages/Affirmations";
+import Sounds from "./pages/Sounds";
+import Journal from "./pages/Journal";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -44,9 +47,9 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }
       />
-      <Route path="/affirmations" element={<ProtectedRoute><div>Affirmations Page</div></ProtectedRoute>} />
-      <Route path="/sounds" element={<ProtectedRoute><div>Sound Therapy Page</div></ProtectedRoute>} />
-      <Route path="/journal" element={<ProtectedRoute><div>Journal Page</div></ProtectedRoute>} />
+      <Route path="/affirmations" element={<ProtectedRoute><Affirmations /></ProtectedRoute>} />
+      <Route path="/sounds" element={<ProtectedRoute><Sounds /></ProtectedRoute>} />
+      <Route path="/journal" element={<ProtectedRoute><Journal /></ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute><div>Profile Page</div></ProtectedRoute>} />
       <Route path="/admin" element={<ProtectedRoute><div>Admin Dashboard</div></ProtectedRoute>} />
       <Route path="*" element={<NotFound />} />
