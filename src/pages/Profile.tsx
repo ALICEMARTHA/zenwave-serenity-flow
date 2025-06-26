@@ -65,7 +65,6 @@ const Profile = () => {
               <CardContent className="space-y-6">
                 <div className="flex items-center space-x-4">
                   <Avatar className="w-20 h-20">
-                    <AvatarImage src={user?.photoURL} />
                     <AvatarFallback className="bg-purple-100 text-purple-600 text-xl">
                       {displayName.charAt(0) || 'U'}
                     </AvatarFallback>
