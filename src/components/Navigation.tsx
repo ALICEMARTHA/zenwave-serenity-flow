@@ -3,7 +3,7 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { Home, User, BookOpen, Music, Heart, Settings, LogOut } from 'lucide-react';
+import { Home, User, BookOpen, Music, Heart, Settings, LogOut, Wind, TrendingUp } from 'lucide-react';
 
 const Navigation = () => {
   const { user, signOut } = useAuth();
@@ -15,8 +15,10 @@ const Navigation = () => {
     { to: '/dashboard', icon: Home, label: 'Dashboard' },
     { to: '/affirmations', icon: Heart, label: 'Affirmations' },
     { to: '/sounds', icon: Music, label: 'Sound Therapy' },
+    { to: '/breathing', icon: Wind, label: 'Breathing' },
     { to: '/journal', icon: BookOpen, label: 'Journal' },
-    { to: '/profile', icon: Settings, label: 'Settings' }
+    { to: '/stress-levels', icon: TrendingUp, label: 'Stress Levels' },
+    { to: '/profile', icon: Settings, label: 'Profile' }
   ];
 
   if (user.isAdmin) {

@@ -1,7 +1,8 @@
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useApp } from '@/contexts/AppContext';
+import MoodGuidance from './MoodGuidance';
 
 interface Mood {
   id: string;
@@ -28,6 +29,8 @@ interface MoodSelectorProps {
 
 const MoodSelector: React.FC<MoodSelectorProps> = ({ onMoodSelect, compact = false }) => {
   const { setCurrentMood } = useApp();
+  const [selectedMood, setSelectedMood] = useState(null);
+  const [showGuidance, setShowGuidance] = useState(false);
 
   const handleMoodSelect = (moodData: typeof moods[0]) => {
     const mood: Mood = {
@@ -38,29 +41,44 @@ const MoodSelector: React.FC<MoodSelectorProps> = ({ onMoodSelect, compact = fal
     };
     
     setCurrentMood(mood);
+    setSelectedMood(mood);
+    setShowGuidance(true);
     onMoodSelect?.(mood);
   };
 
+  const closeGuidance = () => {
+    setShowGuidance(false);
+    setSelectedMood(null);
+  };
+
   return (
-    <div className="space-y-4">
-      {!compact && (
-        <h3 className="text-lg font-semibold text-gray-800">How are you feeling?</h3>
-      )}
-      <div className={`grid ${compact ? 'grid-cols-4 gap-2' : 'grid-cols-4 md:grid-cols-8 gap-4'}`}>
-        {moods.map((mood) => (
-          <motion.button
-            key={mood.name}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => handleMoodSelect(mood)}
-            className={`${mood.color} rounded-xl p-3 flex flex-col items-center space-y-2 transition-colors border border-transparent hover:border-purple-200`}
-          >
-            <span className={compact ? 'text-2xl' : 'text-3xl'}>{mood.emoji}</span>
-            {!compact && <span className="text-xs font-medium text-gray-700">{mood.name}</span>}
-          </motion.button>
-        ))}
+    <>
+      <div className="space-y-4">
+        {!compact && (
+          <h3 className="text-lg font-semibold text-gray-800">How are you feeling?</h3>
+        )}
+        <div className={`grid ${compact ? 'grid-cols-4 gap-2' : 'grid-cols-4 md:grid-cols-8 gap-4'}`}>
+          {moods.map((mood) => (
+            <motion.button
+              key={mood.name}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => handleMoodSelect(mood)}
+              className={`${mood.color} rounded-xl p-3 flex flex-col items-center space-y-2 transition-colors border border-transparent hover:border-purple-200`}
+            >
+              <span className={compact ? 'text-2xl' : 'text-3xl'}>{mood.emoji}</span>
+              {!compact && <span className="text-xs font-medium text-gray-700">{mood.name}</span>}
+            </motion.button>
+          ))}
+        </div>
       </div>
-    </div>
+
+      <AnimatePresence>
+        {showGuidance && selectedMood && (
+          <MoodGuidance mood={selectedMood} onClose={closeGuidance} />
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

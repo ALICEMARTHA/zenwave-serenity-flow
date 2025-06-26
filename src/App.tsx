@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -15,6 +14,8 @@ import Affirmations from "./pages/Affirmations";
 import Sounds from "./pages/Sounds";
 import Journal from "./pages/Journal";
 import StressLevels from "./pages/StressLevels";
+import Profile from "./pages/Profile";
+import Breathing from "./pages/Breathing";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -52,7 +53,8 @@ const AppRoutes = () => {
       <Route path="/sounds" element={<ProtectedRoute><Sounds /></ProtectedRoute>} />
       <Route path="/journal" element={<ProtectedRoute><Journal /></ProtectedRoute>} />
       <Route path="/stress-levels" element={<ProtectedRoute><StressLevels /></ProtectedRoute>} />
-      <Route path="/profile" element={<ProtectedRoute><div>Profile Page</div></ProtectedRoute>} />
+      <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+      <Route path="/breathing" element={<ProtectedRoute><Breathing /></ProtectedRoute>} />
       <Route path="/admin" element={<ProtectedRoute><div>Admin Dashboard</div></ProtectedRoute>} />
       <Route path="*" element={<NotFound />} />
     </Routes>
