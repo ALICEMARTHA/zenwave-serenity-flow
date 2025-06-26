@@ -5,7 +5,7 @@ import Navigation from '@/components/Navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Heart, Volume2, Globe } from 'lucide-react';
+import { Heart, Volume2, Globe, Sparkles, Filter } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 
 const Affirmations = () => {
@@ -14,18 +14,18 @@ const Affirmations = () => {
   const [isSpeaking, setIsSpeaking] = useState<string | null>(null);
 
   const categories = [
-    { value: 'all', label: 'All Categories' },
-    { value: 'calm', label: 'Calm' },
-    { value: 'courage', label: 'Courage' },
-    { value: 'clarity', label: 'Clarity' },
-    { value: 'confidence', label: 'Confidence' }
+    { value: 'all', label: 'All Categories', color: 'from-gray-500 to-gray-600', bgColor: 'bg-gray-100' },
+    { value: 'calm', label: 'Calm', color: 'from-blue-500 to-cyan-500', bgColor: 'bg-blue-50' },
+    { value: 'courage', label: 'Courage', color: 'from-red-500 to-orange-500', bgColor: 'bg-red-50' },
+    { value: 'clarity', label: 'Clarity', color: 'from-yellow-500 to-amber-500', bgColor: 'bg-yellow-50' },
+    { value: 'confidence', label: 'Confidence', color: 'from-green-500 to-emerald-500', bgColor: 'bg-green-50' }
   ];
 
   const languages = [
-    { code: 'en', name: 'English' },
-    { code: 'sw', name: 'Swahili' },
-    { code: 'lg', name: 'Luganda' },
-    { code: 'fr', name: 'French' }
+    { code: 'en', name: 'English', flag: '🇺🇸' },
+    { code: 'sw', name: 'Swahili', flag: '🇰🇪' },
+    { code: 'lg', name: 'Luganda', flag: '🇺🇬' },
+    { code: 'fr', name: 'French', flag: '🇫🇷' }
   ];
 
   const filteredAffirmations = affirmations.filter(affirmation => 
@@ -45,6 +45,10 @@ const Affirmations = () => {
       utterance.rate = 0.8;
       utterance.pitch = 1;
       
+      // Set language for speech synthesis
+      const langCodes = { en: 'en-US', sw: 'sw-KE', lg: 'en-UG', fr: 'fr-FR' };
+      utterance.lang = langCodes[language as keyof typeof langCodes] || 'en-US';
+      
       utterance.onstart = () => setIsSpeaking(id);
       utterance.onend = () => setIsSpeaking(null);
       utterance.onerror = () => setIsSpeaking(null);
@@ -62,86 +66,107 @@ const Affirmations = () => {
   }, []);
 
   const getCategoryColor = (category: string) => {
-    switch (category) {
-      case 'calm': return 'bg-blue-100 text-blue-800';
-      case 'courage': return 'bg-red-100 text-red-800';
-      case 'clarity': return 'bg-yellow-100 text-yellow-800';
-      case 'confidence': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
+    const categoryData = categories.find(cat => cat.value === category);
+    return categoryData ? categoryData.color : 'from-gray-500 to-gray-600';
+  };
+
+  const getCategoryBgColor = (category: string) => {
+    const categoryData = categories.find(cat => cat.value === category);
+    return categoryData ? categoryData.bgColor : 'bg-gray-100';
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 via-blue-50 to-teal-50">
       <Navigation />
       
       <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-4">
-              Daily Affirmations
-            </h1>
-            <p className="text-gray-600 text-lg">
-              Empower your mind with positive thoughts and intentions
+            <div className="flex items-center justify-center mb-4">
+              <Sparkles className="w-8 h-8 text-purple-500 mr-2" />
+              <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 via-pink-600 via-blue-600 to-teal-600 bg-clip-text text-transparent">
+                Daily Affirmations
+              </h1>
+              <Sparkles className="w-8 h-8 text-teal-500 ml-2" />
+            </div>
+            <p className="text-gray-600 text-xl">
+              Empower your mind with positive thoughts and intentions in your chosen language
             </p>
           </div>
 
-          <div className="flex flex-col md:flex-row gap-4 mb-8">
-            <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="w-full md:w-48">
-                <SelectValue placeholder="Select category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((category) => (
-                  <SelectItem key={category.value} value={category.value}>
-                    {category.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+          <div className="flex flex-col md:flex-row gap-4 mb-8 bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                <Filter className="w-4 h-4 mr-1" />
+                Filter by Category
+              </label>
+              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+                <SelectTrigger className="w-full bg-white/80 border-purple-200 focus:border-purple-400">
+                  <SelectValue placeholder="Select category" />
+                </SelectTrigger>
+                <SelectContent className="bg-white/95 backdrop-blur-sm">
+                  {categories.map((category) => (
+                    <SelectItem key={category.value} value={category.value}>
+                      <div className="flex items-center">
+                        <div className={`w-3 h-3 rounded-full bg-gradient-to-r ${category.color} mr-2`}></div>
+                        {category.label}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
-            <Select value={language} onValueChange={setLanguage}>
-              <SelectTrigger className="w-full md:w-48">
-                <Globe className="w-4 h-4 mr-2" />
-                <SelectValue placeholder="Select language" />
-              </SelectTrigger>
-              <SelectContent>
-                {languages.map((lang) => (
-                  <SelectItem key={lang.code} value={lang.code}>
-                    {lang.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <div className="flex-1">
+              <label className="block text-sm font-medium text-gray-700 mb-2 flex items-center">
+                <Globe className="w-4 h-4 mr-1" />
+                Choose Language
+              </label>
+              <Select value={language} onValueChange={setLanguage}>
+                <SelectTrigger className="w-full bg-white/80 border-blue-200 focus:border-blue-400">
+                  <SelectValue placeholder="Select language" />
+                </SelectTrigger>
+                <SelectContent className="bg-white/95 backdrop-blur-sm">
+                  {languages.map((lang) => (
+                    <SelectItem key={lang.code} value={lang.code}>
+                      <div className="flex items-center">
+                        <span className="mr-2 text-lg">{lang.flag}</span>
+                        {lang.name}
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </div>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {filteredAffirmations.map((affirmation) => (
-              <Card key={affirmation.id} className="hover:shadow-lg transition-all duration-300 border-purple-100">
+              <Card key={affirmation.id} className={`hover:shadow-2xl transition-all duration-300 border-2 border-transparent hover:border-purple-200 ${getCategoryBgColor(affirmation.category)} backdrop-blur-sm hover:scale-105`}>
                 <CardHeader className="pb-3">
                   <div className="flex items-center justify-between">
-                    <Badge className={getCategoryColor(affirmation.category)}>
+                    <Badge className={`bg-gradient-to-r ${getCategoryColor(affirmation.category)} text-white border-0 shadow-lg`}>
                       {affirmation.category.charAt(0).toUpperCase() + affirmation.category.slice(1)}
                     </Badge>
                     <Button
                       variant="ghost"
                       size="sm"
                       onClick={() => toggleFavoriteAffirmation(affirmation.id)}
-                      className={affirmation.isFavorite ? 'text-red-500' : 'text-gray-400'}
+                      className={`${affirmation.isFavorite ? 'text-red-500 hover:text-red-600' : 'text-gray-400 hover:text-red-400'} hover:bg-red-50`}
                     >
-                      <Heart className={`w-4 h-4 ${affirmation.isFavorite ? 'fill-current' : ''}`} />
+                      <Heart className={`w-5 h-5 ${affirmation.isFavorite ? 'fill-current' : ''}`} />
                     </Button>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-700 text-lg leading-relaxed mb-4 font-medium">
+                  <p className="text-gray-800 text-lg leading-relaxed mb-4 font-medium min-h-[3rem] flex items-center">
                     "{affirmation.text}"
                   </p>
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => handleTextToSpeech(affirmation.text, affirmation.id)}
-                    className="w-full"
+                    className={`w-full bg-gradient-to-r ${getCategoryColor(affirmation.category)} text-white border-0 hover:opacity-90 shadow-md`}
                     disabled={isSpeaking === affirmation.id}
                   >
                     <Volume2 className="w-4 h-4 mr-2" />
@@ -154,7 +179,15 @@ const Affirmations = () => {
 
           {filteredAffirmations.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">No affirmations found for the selected category.</p>
+              <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-8 shadow-lg max-w-md mx-auto">
+                <p className="text-gray-500 text-lg mb-4">No affirmations found for the selected category.</p>
+                <Button
+                  onClick={() => setSelectedCategory('all')}
+                  className="bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:opacity-90"
+                >
+                  Show All Affirmations
+                </Button>
+              </div>
             </div>
           )}
         </div>
