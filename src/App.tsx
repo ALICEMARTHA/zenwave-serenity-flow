@@ -14,6 +14,7 @@ import Dashboard from "./pages/Dashboard";
 import Affirmations from "./pages/Affirmations";
 import Sounds from "./pages/Sounds";
 import Journal from "./pages/Journal";
+import StressLevels from "./pages/StressLevels";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -50,6 +51,7 @@ const AppRoutes = () => {
       <Route path="/affirmations" element={<ProtectedRoute><Affirmations /></ProtectedRoute>} />
       <Route path="/sounds" element={<ProtectedRoute><Sounds /></ProtectedRoute>} />
       <Route path="/journal" element={<ProtectedRoute><Journal /></ProtectedRoute>} />
+      <Route path="/stress-levels" element={<ProtectedRoute><StressLevels /></ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute><div>Profile Page</div></ProtectedRoute>} />
       <Route path="/admin" element={<ProtectedRoute><div>Admin Dashboard</div></ProtectedRoute>} />
       <Route path="*" element={<NotFound />} />

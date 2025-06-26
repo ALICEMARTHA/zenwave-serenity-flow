@@ -23,6 +23,13 @@ interface JournalEntry {
   timestamp: string;
 }
 
+interface StressLevel {
+  level: 'low' | 'moderate' | 'high';
+  score: number;
+  factors: string[];
+  recommendations: string[];
+}
+
 interface AppContextType {
   currentMood: Mood | null;
   setCurrentMood: (mood: Mood) => void;
@@ -36,6 +43,7 @@ interface AppContextType {
   setLanguage: (lang: string) => void;
   theme: 'light' | 'dark';
   toggleTheme: () => void;
+  getStressLevel: () => StressLevel;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -57,10 +65,37 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   const [affirmations] = useState<Affirmation[]>([
+    // Calm affirmations
     { id: '1', text: 'I am at peace with myself and the world around me', category: 'calm', language: 'en' },
-    { id: '2', text: 'I have the courage to face any challenge', category: 'courage', language: 'en' },
-    { id: '3', text: 'My mind is clear and focused', category: 'clarity', language: 'en' },
-    { id: '4', text: 'I believe in my abilities and trust my decisions', category: 'confidence', language: 'en' },
+    { id: '2', text: 'My mind is calm and my body is relaxed', category: 'calm', language: 'en' },
+    { id: '3', text: 'I breathe in peace and exhale all tension', category: 'calm', language: 'en' },
+    { id: '4', text: 'I am centered and grounded in this moment', category: 'calm', language: 'en' },
+    { id: '5', text: 'Serenity flows through my entire being', category: 'calm', language: 'en' },
+    { id: '6', text: 'I choose peace over worry in every situation', category: 'calm', language: 'en' },
+    
+    // Courage affirmations
+    { id: '7', text: 'I have the courage to face any challenge', category: 'courage', language: 'en' },
+    { id: '8', text: 'I am brave and bold in pursuing my dreams', category: 'courage', language: 'en' },
+    { id: '9', text: 'Fear does not control my decisions', category: 'courage', language: 'en' },
+    { id: '10', text: 'I step out of my comfort zone with confidence', category: 'courage', language: 'en' },
+    { id: '11', text: 'Every challenge makes me stronger and wiser', category: 'courage', language: 'en' },
+    { id: '12', text: 'I face uncertainty with an open heart', category: 'courage', language: 'en' },
+    
+    // Clarity affirmations
+    { id: '13', text: 'My mind is clear and focused', category: 'clarity', language: 'en' },
+    { id: '14', text: 'I see solutions where others see problems', category: 'clarity', language: 'en' },
+    { id: '15', text: 'My thoughts are organized and purposeful', category: 'clarity', language: 'en' },
+    { id: '16', text: 'I trust my inner wisdom to guide me', category: 'clarity', language: 'en' },
+    { id: '17', text: 'The path forward becomes clearer with each step', category: 'clarity', language: 'en' },
+    { id: '18', text: 'I release confusion and embrace understanding', category: 'clarity', language: 'en' },
+    
+    // Confidence affirmations
+    { id: '19', text: 'I believe in my abilities and trust my decisions', category: 'confidence', language: 'en' },
+    { id: '20', text: 'I am worthy of success and happiness', category: 'confidence', language: 'en' },
+    { id: '21', text: 'My potential is limitless and my future is bright', category: 'confidence', language: 'en' },
+    { id: '22', text: 'I speak up for myself with grace and conviction', category: 'confidence', language: 'en' },
+    { id: '23', text: 'I am enough exactly as I am right now', category: 'confidence', language: 'en' },
+    { id: '24', text: 'Success flows naturally to me', category: 'confidence', language: 'en' },
   ]);
 
   useEffect(() => {
@@ -99,6 +134,67 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
 
+  const getStressLevel = (): StressLevel => {
+    const recentMoods = moods.slice(0, 7); // Last 7 moods
+    const recentJournals = journalEntries.slice(0, 5); // Last 5 journal entries
+    
+    let stressScore = 0;
+    const factors: string[] = [];
+    const recommendations: string[] = [];
+
+    // Analyze moods
+    const stressfulMoods = recentMoods.filter(mood => 
+      ['Anxious', 'Frustrated', 'Sad'].includes(mood.name)
+    );
+    
+    if (stressfulMoods.length > recentMoods.length * 0.6) {
+      stressScore += 40;
+      factors.push('Frequent negative moods detected');
+    }
+
+    // Analyze journal content for stress indicators
+    const stressKeywords = ['stress', 'anxious', 'worried', 'overwhelmed', 'tired', 'frustrated', 'difficult', 'hard'];
+    const journalStressCount = recentJournals.reduce((count, entry) => {
+      const lowerContent = entry.content.toLowerCase();
+      return count + stressKeywords.filter(keyword => lowerContent.includes(keyword)).length;
+    }, 0);
+
+    if (journalStressCount > 3) {
+      stressScore += 30;
+      factors.push('Stress-related themes in journal entries');
+    }
+
+    // Check for mood consistency
+    if (recentMoods.length > 3) {
+      const moodVariety = new Set(recentMoods.map(m => m.name)).size;
+      if (moodVariety < 2) {
+        stressScore += 20;
+        factors.push('Limited emotional range');
+      }
+    }
+
+    // Determine stress level and recommendations
+    let level: 'low' | 'moderate' | 'high';
+    if (stressScore < 30) {
+      level = 'low';
+      recommendations.push('Keep up your positive wellness routine');
+      recommendations.push('Try gratitude journaling to maintain balance');
+    } else if (stressScore < 60) {
+      level = 'moderate';
+      recommendations.push('Consider stress-reduction techniques like deep breathing');
+      recommendations.push('Try calming affirmations and sound therapy');
+      recommendations.push('Maintain regular journaling for emotional awareness');
+    } else {
+      level = 'high';
+      recommendations.push('Focus on calming activities and mindfulness');
+      recommendations.push('Consider speaking with a mental health professional');
+      recommendations.push('Use courage affirmations to build resilience');
+      recommendations.push('Practice regular self-care and stress management');
+    }
+
+    return { level, score: stressScore, factors, recommendations };
+  };
+
   return (
     <AppContext.Provider value={{
       currentMood,
@@ -112,7 +208,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       language,
       setLanguage,
       theme,
-      toggleTheme
+      toggleTheme,
+      getStressLevel
     }}>
       {children}
     </AppContext.Provider>
