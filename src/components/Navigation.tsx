@@ -1,10 +1,9 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
 import Logo from '@/components/Logo';
-import { Home, User, BookOpen, Music, Heart, Settings, LogOut, Wind, TrendingUp } from 'lucide-react';
+import { Home, User, BookOpen, Music, Heart, Settings, LogOut, Wind, TrendingUp, Watch } from 'lucide-react';
 
 const Navigation = () => {
   const { user, signOut } = useAuth();
@@ -18,11 +17,12 @@ const Navigation = () => {
     { to: '/sounds', icon: Music, label: 'Sound Therapy', color: 'text-green-600 hover:bg-green-50' },
     { to: '/breathing', icon: Wind, label: 'Breathing', color: 'text-teal-600 hover:bg-teal-50' },
     { to: '/journal', icon: BookOpen, label: 'Journal', color: 'text-orange-600 hover:bg-orange-50' },
+    { to: '/wearables', icon: Watch, label: 'Wearables', color: 'text-indigo-600 hover:bg-indigo-50' },
     { to: '/stress-levels', icon: TrendingUp, label: 'Stress Levels', color: 'text-red-600 hover:bg-red-50' },
     { to: '/profile', icon: Settings, label: 'Profile', color: 'text-purple-600 hover:bg-purple-50' }
   ];
 
-  if (user.isAdmin) {
+  if (user.email === 'admin@zenwave.com') {
     navItems.push({ to: '/admin', icon: User, label: 'Admin', color: 'text-gray-600 hover:bg-gray-50' });
   }
 
@@ -54,7 +54,7 @@ const Navigation = () => {
           <div className="flex items-center space-x-4">
             <div className="hidden sm:block">
               <span className="text-sm text-gray-600 bg-gradient-to-r from-purple-50 to-blue-50 px-3 py-1 rounded-full">
-                Hello, {user.displayName || 'Guest'}
+                Hello, {user.user_metadata?.full_name || user.email?.split('@')[0] || 'Guest'}
               </span>
             </div>
             <Button

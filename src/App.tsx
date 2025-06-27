@@ -16,6 +16,8 @@ import Journal from "./pages/Journal";
 import StressLevels from "./pages/StressLevels";
 import Profile from "./pages/Profile";
 import Breathing from "./pages/Breathing";
+import AboutUs from "./pages/AboutUs";
+import Wearables from "./pages/Wearables";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,6 +43,7 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/" element={user ? <Navigate to="/dashboard" /> : <Landing />} />
       <Route path="/auth" element={user ? <Navigate to="/dashboard" /> : <Auth />} />
+      <Route path="/about" element={<AboutUs />} />
       <Route
         path="/dashboard"
         element={
@@ -55,6 +58,7 @@ const AppRoutes = () => {
       <Route path="/stress-levels" element={<ProtectedRoute><StressLevels /></ProtectedRoute>} />
       <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
       <Route path="/breathing" element={<ProtectedRoute><Breathing /></ProtectedRoute>} />
+      <Route path="/wearables" element={<ProtectedRoute><Wearables /></ProtectedRoute>} />
       <Route path="/admin" element={<ProtectedRoute><div>Admin Dashboard</div></ProtectedRoute>} />
       <Route path="*" element={<NotFound />} />
     </Routes>

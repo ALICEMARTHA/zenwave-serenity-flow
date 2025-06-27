@@ -1,262 +1,200 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Heart, Music, BookOpen, Sparkles, ArrowRight, Star } from 'lucide-react';
+import Footer from '@/components/Footer';
+import { Heart, Music, BookOpen, Wind, TrendingUp, Watch, Sparkles, Shield, Users } from 'lucide-react';
 
 const Landing = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
-      {/* Navigation */}
-      <nav className="container mx-auto px-4 py-6">
-        <div className="flex items-center justify-between">
-          <div className="text-3xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-            ZenWave
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-teal-50">
+      {/* Header */}
+      <header className="container mx-auto px-4 py-6">
+        <nav className="flex items-center justify-between">
+          <div className="flex items-center">
+            <Heart className="w-8 h-8 text-purple-600 mr-2" />
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 via-blue-600 to-teal-600 bg-clip-text text-transparent">
+              ZenWave
+            </h1>
           </div>
-          <div className="space-x-4">
-            <Link to="/auth">
-              <Button variant="ghost" className="text-gray-600 hover:text-purple-600">
-                Sign In
-              </Button>
+          <div className="flex space-x-4">
+            <Link to="/about">
+              <Button variant="ghost">About Us</Button>
             </Link>
             <Link to="/auth">
-              <Button className="bg-purple-600 hover:bg-purple-700 text-white">
-                Get Started
-              </Button>
+              <Button>Get Started</Button>
             </Link>
           </div>
-        </div>
-      </nav>
+        </nav>
+      </header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="text-center max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-          >
-            <h1 className="text-6xl md:text-7xl font-bold text-gray-800 mb-6 leading-tight">
-              Find Your
-              <span className="bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                {" "}Inner Peace
-              </span>
-            </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
-              Transform your mental wellness journey with personalized affirmations, 
-              soothing sound therapy, mindful journaling, and calming scent integration.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/auth">
-                <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 text-lg rounded-xl">
-                  Start Your Journey
-                  <ArrowRight className="ml-2" size={20} />
-                </Button>
-              </Link>
-              <Button variant="outline" className="px-8 py-4 text-lg rounded-xl border-purple-200 hover:bg-purple-50">
-                Explore Features
-              </Button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Features Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">
-            Your Wellness Toolkit
+      <section className="container mx-auto px-4 py-16 text-center">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-5xl font-bold text-gray-800 mb-6">
+            Your Mindful Wellness
+            <span className="bg-gradient-to-r from-purple-600 via-blue-600 to-teal-600 bg-clip-text text-transparent">
+              {" "}Journey Starts Here
+            </span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Discover powerful tools designed to support your mental wellness journey
+          <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+            Discover peace, balance, and well-being through personalized mindfulness tools, 
+            mood tracking, guided meditations, and holistic wellness features.
           </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
-            <Card className="border-purple-100 hover:border-purple-200 transition-colors h-full">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Heart className="text-purple-600" size={32} />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">Daily Affirmations</h3>
-                <p className="text-gray-600">
-                  Personalized positive affirmations in multiple languages to boost your confidence and mindset.
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            <Card className="border-blue-100 hover:border-blue-200 transition-colors h-full">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Music className="text-blue-600" size={32} />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">Sound Therapy</h3>
-                <p className="text-gray-600">
-                  Binaural beats and nature sounds for focus, relaxation, and better sleep quality.
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            <Card className="border-green-100 hover:border-green-200 transition-colors h-full">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <BookOpen className="text-green-600" size={32} />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">Mindful Journaling</h3>
-                <p className="text-gray-600">
-                  Guided prompts and free writing to process emotions and track your wellness journey.
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-          >
-            <Card className="border-orange-100 hover:border-orange-200 transition-colors h-full">
-              <CardContent className="p-6 text-center">
-                <div className="w-16 h-16 bg-orange-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <Sparkles className="text-orange-600" size={32} />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-800 mb-2">Scent Integration</h3>
-                <p className="text-gray-600">
-                  Aromatherapy guidance with natural scent recommendations for enhanced wellness.
-                </p>
-              </CardContent>
-            </Card>
-          </motion.div>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/auth">
+              <Button size="lg" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+                Start Your Journey
+              </Button>
+            </Link>
+            <Link to="/about">
+              <Button variant="outline" size="lg">
+                Learn More
+              </Button>
+            </Link>
+          </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="bg-white/50 backdrop-blur-sm py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              Loved by Thousands
-            </h2>
-            <p className="text-xl text-gray-600">
-              Join our community of wellness seekers
-            </p>
-          </div>
+      {/* Features Grid */}
+      <section className="container mx-auto px-4 py-16">
+        <div className="max-w-6xl mx-auto">
+          <h3 className="text-3xl font-bold text-center text-gray-800 mb-12">
+            Everything You Need for Wellness
+          </h3>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm hover:shadow-xl transition-shadow">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-4">
+                  <Heart className="w-8 h-8 text-pink-600 mr-3" />
+                  <h4 className="text-xl font-semibold">Mood Tracking</h4>
+                </div>
+                <p className="text-gray-600">
+                  Track your emotional patterns and receive personalized insights to improve your mental well-being.
+                </p>
+              </CardContent>
+            </Card>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {[
-              {
-                quote: "ZenWave has completely transformed my daily routine. The affirmations help me start each day with confidence.",
-                author: "Sarah M.",
-                rating: 5
-              },
-              {
-                quote: "The sound therapy sessions are incredible. I sleep so much better now and feel more focused during work.",
-                author: "David L.",
-                rating: 5
-              },
-              {
-                quote: "I love the journaling prompts. They've helped me process my emotions and understand myself better.",
-                author: "Maya K.",
-                rating: 5
-              }
-            ].map((testimonial, index) => (
-              <Card key={index} className="border-purple-100">
-                <CardContent className="p-6">
-                  <div className="flex mb-4">
-                    {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="text-yellow-400 fill-current" size={16} />
-                    ))}
-                  </div>
-                  <p className="text-gray-600 mb-4 italic">"{testimonial.quote}"</p>
-                  <p className="font-semibold text-gray-800">- {testimonial.author}</p>
-                </CardContent>
-              </Card>
-            ))}
+            <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm hover:shadow-xl transition-shadow">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-4">
+                  <BookOpen className="w-8 h-8 text-orange-600 mr-3" />
+                  <h4 className="text-xl font-semibold">Smart Journaling</h4>
+                </div>
+                <p className="text-gray-600">
+                  Reflect on your thoughts with guided prompts and build healthy mental habits through journaling.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm hover:shadow-xl transition-shadow">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-4">
+                  <Music className="w-8 h-8 text-green-600 mr-3" />
+                  <h4 className="text-xl font-semibold">Sound Therapy</h4>
+                </div>
+                <p className="text-gray-600">
+                  Immerse yourself in calming sounds, nature recordings, and binaural beats for deep relaxation.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm hover:shadow-xl transition-shadow">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-4">
+                  <Wind className="w-8 h-8 text-teal-600 mr-3" />
+                  <h4 className="text-xl font-semibold">Breathing Exercises</h4>
+                </div>
+                <p className="text-gray-600">
+                  Practice guided breathing techniques to reduce anxiety, improve focus, and find inner calm.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm hover:shadow-xl transition-shadow">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-4">
+                  <Watch className="w-8 h-8 text-indigo-600 mr-3" />
+                  <h4 className="text-xl font-semibold">Wearable Integration</h4>
+                </div>
+                <p className="text-gray-600">
+                  Connect your fitness trackers to monitor heart rate variability, skin temperature, and stress levels.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm hover:shadow-xl transition-shadow">
+              <CardContent className="p-6">
+                <div className="flex items-center mb-4">
+                  <TrendingUp className="w-8 h-8 text-red-600 mr-3" />
+                  <h4 className="text-xl font-semibold">Stress Analysis</h4>
+                </div>
+                <p className="text-gray-600">
+                  Get personalized stress level insights and recommendations based on your patterns and behaviors.
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Benefits Section */}
+      <section className="bg-white/50 py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <h3 className="text-3xl font-bold text-gray-800 mb-8">Why Choose ZenWave?</h3>
+            <div className="grid md:grid-cols-3 gap-8">
+              <div className="text-center">
+                <div className="bg-gradient-to-r from-purple-100 to-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Sparkles className="w-8 h-8 text-purple-600" />
+                </div>
+                <h4 className="text-lg font-semibold mb-2">Personalized Experience</h4>
+                <p className="text-gray-600">
+                  AI-powered recommendations tailored to your unique wellness journey and preferences.
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="bg-gradient-to-r from-green-100 to-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Shield className="w-8 h-8 text-green-600" />
+                </div>
+                <h4 className="text-lg font-semibold mb-2">Privacy & Security</h4>
+                <p className="text-gray-600">
+                  Your wellness data is encrypted and secure. We prioritize your privacy above everything else.
+                </p>
+              </div>
+              <div className="text-center">
+                <div className="bg-gradient-to-r from-blue-100 to-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Users className="w-8 h-8 text-blue-600" />
+                </div>
+                <h4 className="text-lg font-semibold mb-2">Evidence-Based</h4>
+                <p className="text-gray-600">
+                  All features are grounded in scientific research and proven therapeutic practices.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="container mx-auto px-4 py-20">
-        <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-4xl font-bold text-gray-800 mb-6">
-            Ready to Begin Your Wellness Journey?
-          </h2>
+      <section className="container mx-auto px-4 py-16 text-center">
+        <div className="max-w-2xl mx-auto">
+          <h3 className="text-3xl font-bold text-gray-800 mb-4">
+            Ready to Transform Your Wellness Journey?
+          </h3>
           <p className="text-xl text-gray-600 mb-8">
-            Join thousands of people who have found peace and clarity with ZenWave.
-            Start your free journey today.
+            Join thousands of users who have found peace, balance, and happiness with ZenWave.
           </p>
           <Link to="/auth">
-            <Button className="bg-purple-600 hover:bg-purple-700 text-white px-12 py-4 text-lg rounded-xl">
-              Get Started Free
-              <ArrowRight className="ml-2" size={20} />
+            <Button size="lg" className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+              Get Started for Free
             </Button>
           </Link>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-4 gap-8">
-            <div>
-              <div className="text-2xl font-bold mb-4">ZenWave</div>
-              <p className="text-gray-400">
-                Transform your mental wellness journey with personalized tools and guidance.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Features</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>Daily Affirmations</li>
-                <li>Sound Therapy</li>
-                <li>Mindful Journaling</li>
-                <li>Scent Integration</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Support</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>Help Center</li>
-                <li>Privacy Policy</li>
-                <li>Terms of Service</li>
-                <li>Contact Us</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-4">Connect</h4>
-              <ul className="space-y-2 text-gray-400">
-                <li>Community</li>
-                <li>Blog</li>
-                <li>Newsletter</li>
-                <li>Social Media</li>
-              </ul>
-            </div>
-          </div>
-          <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 ZenWave. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

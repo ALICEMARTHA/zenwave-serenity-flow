@@ -1,20 +1,15 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-
-interface User {
-  id: string;
-  email?: string;
-  displayName?: string;
-  isAnonymous: boolean;
-  isAdmin?: boolean;
-}
+import { User, Session } from '@supabase/supabase-js';
+import { supabase } from '@/integrations/supabase/client';
 
 interface AuthContextType {
   user: User | null;
+  session: Session | null;
   isLoading: boolean;
-  signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string, displayName?: string) => Promise<void>;
-  signInAnonymously: () => Promise<void>;
+  signIn: (email: string, password: string) => Promise<{ error?: any }>;
+  signUp: (email: string, password: string, fullName?: string) => Promise<{ error?: any }>;
+  signInAnonymously: () => Promise<{ error?: any }>;
   signOut: () => Promise<void>;
 }
 
@@ -30,63 +25,67 @@ export const useAuth = () => {
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate auth check
-    const checkAuth = async () => {
-      const savedUser = localStorage.getItem('zenwave_user');
-      if (savedUser) {
-        setUser(JSON.parse(savedUser));
+    // Set up auth state listener
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, session) => {
+        setSession(session);
+        setUser(session?.user ?? null);
+        setIsLoading(false);
       }
+    );
+
+    // Check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
       setIsLoading(false);
-    };
-    checkAuth();
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    // Simulate Firebase auth
-    const newUser: User = {
-      id: Date.now().toString(),
+    const { error } = await supabase.auth.signInWithPassword({
       email,
-      displayName: email.split('@')[0],
-      isAnonymous: false,
-      isAdmin: email === 'admin@zenwave.com'
-    };
-    setUser(newUser);
-    localStorage.setItem('zenwave_user', JSON.stringify(newUser));
+      password,
+    });
+    return { error };
   };
 
-  const signUp = async (email: string, password: string, displayName?: string) => {
-    const newUser: User = {
-      id: Date.now().toString(),
+  const signUp = async (email: string, password: string, fullName?: string) => {
+    const redirectUrl = `${window.location.origin}/`;
+    
+    const { error } = await supabase.auth.signUp({
       email,
-      displayName: displayName || email.split('@')[0],
-      isAnonymous: false,
-      isAdmin: false
-    };
-    setUser(newUser);
-    localStorage.setItem('zenwave_user', JSON.stringify(newUser));
+      password,
+      options: {
+        emailRedirectTo: redirectUrl,
+        data: {
+          full_name: fullName,
+          username: email.split('@')[0]
+        }
+      }
+    });
+    return { error };
   };
 
   const signInAnonymously = async () => {
-    const newUser: User = {
-      id: 'anon_' + Date.now().toString(),
-      isAnonymous: true,
-      displayName: 'Guest User'
-    };
-    setUser(newUser);
-    localStorage.setItem('zenwave_user', JSON.stringify(newUser));
+    const { error } = await supabase.auth.signInAnonymously();
+    return { error };
   };
 
   const signOut = async () => {
-    setUser(null);
-    localStorage.removeItem('zenwave_user');
+    await supabase.auth.signOut();
   };
 
   return (
     <AuthContext.Provider value={{
       user,
+      session,
       isLoading,
       signIn,
       signUp,

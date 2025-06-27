@@ -75,6 +75,75 @@ export type Database = {
         }
         Relationships: []
       }
+      user_preferences: {
+        Row: {
+          created_at: string
+          id: string
+          mood_preferences: Json | null
+          preferred_scents: string[] | null
+          preferred_sounds: string[] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          mood_preferences?: Json | null
+          preferred_scents?: string[] | null
+          preferred_sounds?: string[] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          mood_preferences?: Json | null
+          preferred_scents?: string[] | null
+          preferred_sounds?: string[] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      wearable_data: {
+        Row: {
+          created_at: string
+          device_name: string | null
+          device_type: string | null
+          heart_rate: number | null
+          hrv_value: number | null
+          id: string
+          recorded_at: string
+          skin_temperature: number | null
+          stress_level: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          device_name?: string | null
+          device_type?: string | null
+          heart_rate?: number | null
+          hrv_value?: number | null
+          id?: string
+          recorded_at?: string
+          skin_temperature?: number | null
+          stress_level?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          device_name?: string | null
+          device_type?: string | null
+          heart_rate?: number | null
+          hrv_value?: number | null
+          id?: string
+          recorded_at?: string
+          skin_temperature?: number | null
+          stress_level?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
