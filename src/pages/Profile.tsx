@@ -16,7 +16,7 @@ import { useToast } from '@/hooks/use-toast';
 const Profile = () => {
   const { user } = useAuth();
   const { toast } = useToast();
-  const [displayName, setDisplayName] = useState(user?.displayName || '');
+  const [displayName, setDisplayName] = useState(user?.user_metadata?.full_name || '');
   const [darkMode, setDarkMode] = useState(false);
   const [notifications, setNotifications] = useState(true);
   const [soundEnabled, setSoundEnabled] = useState(true);
@@ -70,7 +70,7 @@ const Profile = () => {
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <Badge variant="secondary">{user?.isAnonymous ? 'Guest' : 'Member'}</Badge>
+                    <Badge variant="secondary">{user?.is_anonymous ? 'Guest' : 'Member'}</Badge>
                     <p className="text-sm text-gray-600 mt-1">{user?.email || 'No email'}</p>
                   </div>
                 </div>

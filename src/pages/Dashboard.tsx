@@ -37,6 +37,8 @@ const Dashboard = () => {
 
   const moodTrend = recentMoodTrend();
 
+  const displayName = user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'Guest';
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
       <Navigation />
@@ -60,7 +62,7 @@ const Dashboard = () => {
           className="mb-8"
         >
           <h1 className="text-4xl font-bold text-gray-800 mb-2">
-            {greeting}, {user?.displayName || 'Guest'}! ✨
+            {greeting}, {displayName}! ✨
           </h1>
           <p className="text-lg text-gray-600">
             How would you like to nurture your wellness today?
